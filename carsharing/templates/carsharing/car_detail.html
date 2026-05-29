@@ -1,0 +1,78 @@
+{% extends "carsharing/base.html" %}
+{% load carsharing_extras %}
+
+{% block title %}{{ car.display_name }} — Impel CarShare{% endblock %}
+
+{% block content %}
+<section class="car-detail-hero">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb bg-transparent pl-0 mb-2">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-white-50">Автопарк</a></li>
+                <li class="breadcrumb-item active text-white">{{ car.display_name }}</li>
+            </ol>
+        </nav>
+        <h1 class="font-display">{{ car.display_name }}</h1>
+        <p class="mb-0 opacity-75">{{ car.year }} · {{ car.license_plate }}</p>
+    </div>
+</section>
+
+<section class="impel-section pt-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-7 mb-4">
+                <img src="{% car_image car %}" alt="{{ car.display_name }}" class="car-detail-img">
+            </div>
+            <div class="col-lg-5">
+                <div class="car-specs mb-4">
+                    <dl class="mb-0">
+                        <dt>Тариф</dt>
+                        <dd class="car-card-price">{{ car.price_per_minute }} руб./мин</dd>
+                        <dt>Минимум при старте</dt>
+                        <dd>{{ car.min_start_balance }} руб. (15 мин.)</dd>
+                        <dt>Статус</dt>
+                        <dd>
+                            {% if car.is_available %}
+                            <span class="badge-available">Доступен для аренды</span>
+                            {% else %}
+                            <span class="badge-rented">В аренде</span>
+                            {% endif %}
+                        </dd>
+                        <dt>Местоположение</dt>
+                        <dd>{{ car.latitude }}, {{ car.longitude }}</dd>
+                    </dl>
+                </div>
+
+                {% if car.description %}
+                <div class="mb-4">
+                    <h3 class="h5 font-display">Описание</h3>
+                    <p class="text-muted">{{ car.description|linebreaks }}</p>
+                </div>
+                {% endif %}
+
+                {% if car.is_available %}
+                    {% if user.is_authenticated %}
+                        {% if active_rental %}
+                        <div class="alert alert-warning">
+                            У вас уже активная аренда:
+                            <a href="{% url 'rental_stop' active_rental.pk %}">{{ active_rental.car }}</a>
+                        </div>
+                        {% else %}
+                        <form method="post" action="{% url 'rent_car' car.pk %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-impel btn-lg btn-block">Арендовать сейчас</button>
+                        </form>
+                        {% endif %}
+                    {% else %}
+                    <a href="{% url 'login' %}?next={% url 'car_detail' car.pk %}" class="btn btn-impel btn-lg btn-block">Войти для аренды</a>
+                    {% endif %}
+                {% else %}
+                <button class="btn btn-secondary btn-lg btn-block" disabled>Сейчас недоступен</button>
+                {% endif %}
+
+                <a href="{% url 'home' %}" class="btn btn-impel-outline btn-block mt-3">Назад к каталогу</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

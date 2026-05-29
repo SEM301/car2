@@ -1,0 +1,304 @@
+/* Стиль в духе Impel Car — премиум автопрокат */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
+
+:root {
+  --impel-dark: #0d0d0d;
+  --impel-black: #1a1a1a;
+  --impel-gold: #c9a227;
+  --impel-gold-hover: #e0b83a;
+  --impel-red: #c41e3a;
+  --impel-gray: #6c757d;
+  --impel-light: #f5f5f5;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  color: #333;
+  background: #fff;
+}
+
+h1, h2, h3, .font-display {
+  font-family: 'Playfair Display', serif;
+}
+
+/* Navbar */
+.impel-navbar {
+  background: var(--impel-dark) !important;
+  padding: 0.75rem 0;
+  border-bottom: 3px solid var(--impel-gold);
+}
+
+.impel-navbar .navbar-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #fff !important;
+  letter-spacing: 1px;
+}
+
+.impel-navbar .navbar-brand span {
+  color: var(--impel-gold);
+}
+
+.impel-navbar .nav-link {
+  color: rgba(255,255,255,0.85) !important;
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+  padding: 0.5rem 1rem !important;
+}
+
+.impel-navbar .nav-link:hover,
+.impel-navbar .nav-link.active {
+  color: var(--impel-gold) !important;
+}
+
+.btn-impel {
+  background: var(--impel-gold);
+  color: var(--impel-dark);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  border: none;
+  padding: 0.65rem 1.5rem;
+  border-radius: 0;
+  transition: all 0.3s;
+}
+
+.btn-impel:hover {
+  background: var(--impel-gold-hover);
+  color: var(--impel-dark);
+  transform: translateY(-2px);
+}
+
+.btn-impel-outline {
+  background: transparent;
+  border: 2px solid var(--impel-gold);
+  color: var(--impel-gold);
+}
+
+.btn-impel-outline:hover {
+  background: var(--impel-gold);
+  color: var(--impel-dark);
+}
+
+.btn-impel-danger {
+  background: var(--impel-red);
+  color: #fff;
+}
+
+.btn-impel-danger:hover {
+  background: #a01830;
+  color: #fff;
+}
+
+/* Hero */
+.impel-hero {
+  background: linear-gradient(135deg, rgba(13,13,13,0.95) 0%, rgba(42,42,42,0.9) 100%),
+    url('../img/hero-bg.svg') center/cover no-repeat;
+  min-height: 420px;
+  display: flex;
+  align-items: center;
+  color: #fff;
+}
+
+.impel-hero h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.impel-hero .lead {
+  font-size: 1.15rem;
+  opacity: 0.9;
+  max-width: 600px;
+}
+
+.impel-hero .gold-line {
+  width: 80px;
+  height: 3px;
+  background: var(--impel-gold);
+  margin: 1.5rem 0;
+}
+
+/* Section */
+.impel-section {
+  padding: 4rem 0;
+}
+
+.impel-section-title {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.impel-section-title h2 {
+  font-size: 2.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.impel-section-title .subtitle {
+  color: var(--impel-gray);
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+}
+
+.impel-section-title::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: var(--impel-gold);
+  margin: 1rem auto 0;
+}
+
+/* Car cards */
+.car-card {
+  background: #fff;
+  border: 1px solid #eee;
+  overflow: hidden;
+  transition: box-shadow 0.3s, transform 0.3s;
+  height: 100%;
+}
+
+.car-card:hover {
+  box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+  transform: translateY(-4px);
+}
+
+.car-card-img {
+  height: 220px;
+  object-fit: cover;
+  width: 100%;
+  background: var(--impel-black);
+}
+
+.car-card-body {
+  padding: 1.25rem;
+}
+
+.car-card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.35rem;
+  margin-bottom: 0.25rem;
+}
+
+.car-card-price {
+  color: var(--impel-gold);
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.car-card-meta {
+  color: var(--impel-gray);
+  font-size: 0.85rem;
+}
+
+.badge-available {
+  background: #28a745;
+  color: #fff;
+  font-size: 0.7rem;
+  padding: 0.35em 0.65em;
+  text-transform: uppercase;
+}
+
+.badge-rented {
+  background: var(--impel-red);
+  color: #fff;
+  font-size: 0.7rem;
+  padding: 0.35em 0.65em;
+  text-transform: uppercase;
+}
+
+/* Car detail */
+.car-detail-hero {
+  background: var(--impel-dark);
+  color: #fff;
+  padding: 2rem 0;
+}
+
+.car-detail-img {
+  width: 100%;
+  max-height: 480px;
+  object-fit: cover;
+  border: 4px solid var(--impel-gold);
+}
+
+.car-specs {
+  background: var(--impel-light);
+  padding: 1.5rem;
+}
+
+.car-specs dt {
+  font-weight: 600;
+  color: var(--impel-gray);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+.car-specs dd {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+/* Footer */
+.impel-footer {
+  background: var(--impel-dark);
+  color: rgba(255,255,255,0.7);
+  padding: 3rem 0 1.5rem;
+  margin-top: 3rem;
+}
+
+.impel-footer h5 {
+  color: var(--impel-gold);
+  font-family: 'Playfair Display', serif;
+  margin-bottom: 1rem;
+}
+
+.impel-footer a {
+  color: rgba(255,255,255,0.7);
+}
+
+.impel-footer a:hover {
+  color: var(--impel-gold);
+  text-decoration: none;
+}
+
+/* Forms */
+.impel-form-card {
+  background: var(--impel-light);
+  padding: 2rem;
+  border-top: 4px solid var(--impel-gold);
+}
+
+.fleet-table img {
+  width: 80px;
+  height: 50px;
+  object-fit: cover;
+}
+
+.alert-impel {
+  border-radius: 0;
+  border-left: 4px solid var(--impel-gold);
+}
+
+.car-filters-form .form-group {
+  margin-bottom: 0.75rem;
+}
+
+.car-filters-form label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--impel-gray);
+  font-weight: 600;
+}
+
+.profile-balance {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--impel-gold);
+  font-family: 'Playfair Display', serif;
+}

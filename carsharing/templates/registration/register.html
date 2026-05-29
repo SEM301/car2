@@ -1,0 +1,47 @@
+{% extends "carsharing/base.html" %}
+
+{% block title %}Регистрация — Impel CarShare{% endblock %}
+
+{% block content %}
+<section class="impel-hero" style="min-height: 200px;">
+    <div class="container">
+        <h1 class="h2">Регистрация</h1>
+        <p class="lead mb-0">Создайте аккаунт для аренды автомобилей</p>
+    </div>
+</section>
+<section class="impel-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="impel-form-card">
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+                        {% for field in form %}
+                        <div class="form-group">
+                            {{ field.label_tag }}
+                            {{ field }}
+                            {% if field.help_text %}
+                            <small class="form-text text-muted">{{ field.help_text }}</small>
+                            {% endif %}
+                            {% for error in field.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        {% endfor %}
+                        {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {% for error in form.non_field_errors %}{{ error }}{% endfor %}
+                        </div>
+                        {% endif %}
+                        <button type="submit" class="btn btn-impel btn-block">Зарегистрироваться</button>
+                    </form>
+                    <hr>
+                    <p class="text-center small mb-0">
+                        Уже есть аккаунт? <a href="{% url 'login' %}">Войти</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

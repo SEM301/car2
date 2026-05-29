@@ -1,0 +1,40 @@
+{% if page_obj.has_other_pages %}
+<nav aria-label="Страницы" class="mt-4">
+    <ul class="pagination justify-content-center flex-wrap">
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page=1{% if filter_query %}&{{ filter_query }}{% endif %}">&laquo;</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if filter_query %}&{{ filter_query }}{% endif %}">Назад</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+            {% if num == page_obj.number %}
+            <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+            {% elif num > page_obj.number|add:"-3" and num < page_obj.number|add:"3" %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ num }}{% if filter_query %}&{{ filter_query }}{% endif %}">{{ num }}</a>
+            </li>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if filter_query %}&{{ filter_query }}{% endif %}">Вперёд</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if filter_query %}&{{ filter_query }}{% endif %}">&raquo;</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+        {% endif %}
+    </ul>
+    <p class="text-center text-muted small">
+        Показано {{ page_obj.start_index }}–{{ page_obj.end_index }} из {{ paginator.count }}
+    </p>
+</nav>
+{% endif %}

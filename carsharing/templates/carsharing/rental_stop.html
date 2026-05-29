@@ -1,0 +1,53 @@
+{% extends "carsharing/base.html" %}
+{% load carsharing_extras %}
+
+{% block title %}Аренда #{{ rental.pk }} — Impel CarShare{% endblock %}
+
+{% block content %}
+<section class="impel-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 mb-4">
+                <img src="{% car_image rental.car %}" alt="{{ rental.car }}" class="car-detail-img">
+            </div>
+            <div class="col-lg-6">
+                <div class="impel-section-title text-left">
+                    <p class="subtitle">Текущая поездка</p>
+                    <h2>{{ rental.car.display_name }}</h2>
+                </div>
+                <div class="car-specs">
+                    <dl>
+                        <dt>Госномер</dt>
+                        <dd>{{ rental.car.license_plate }}</dd>
+                        <dt>Начало</dt>
+                        <dd>{{ rental.start_time|date:"d.m.Y H:i" }}</dd>
+                        <dt>Тариф</dt>
+                        <dd>{{ rental.car.price_per_minute }} руб./мин</dd>
+                        <dt>Статус</dt>
+                        <dd>
+                            {% if rental.is_active %}
+                            <span class="badge-available">В поездке</span>
+                            {% else %}
+                            <span class="badge badge-secondary">Завершена</span>
+                            {% endif %}
+                        </dd>
+                        {% if rental.total_cost %}
+                        <dt>Списано</dt>
+                        <dd class="car-card-price">{{ rental.total_cost }} ₽</dd>
+                        {% endif %}
+                    </dl>
+                </div>
+
+                {% if rental.is_active %}
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-impel-danger btn-lg">Завершить аренду</button>
+                </form>
+                {% else %}
+                <a href="{% url 'profile' %}" class="btn btn-impel">В личный кабинет</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,40 @@
+<div class="impel-form-card mb-4">
+    <h3 class="h6 font-display text-uppercase mb-3">Фильтры</h3>
+    <form method="get" class="car-filters-form">
+        <div class="row">
+            <div class="col-md-6 col-lg-2 form-group">
+                {{ filter_form.brand.label_tag }}
+                {{ filter_form.brand }}
+            </div>
+            <div class="col-md-3 col-lg-2 form-group">
+                {{ filter_form.year_min.label_tag }}
+                {{ filter_form.year_min }}
+            </div>
+            <div class="col-md-3 col-lg-2 form-group">
+                {{ filter_form.year_max.label_tag }}
+                {{ filter_form.year_max }}
+            </div>
+            <div class="col-md-3 col-lg-2 form-group">
+                {{ filter_form.price_min.label_tag }}
+                {{ filter_form.price_min }}
+            </div>
+            <div class="col-md-3 col-lg-2 form-group">
+                {{ filter_form.price_max.label_tag }}
+                {{ filter_form.price_max }}
+            </div>
+            <div class="col-md-6 col-lg-2 form-group">
+                {{ filter_form.sort.label_tag }}
+                {{ filter_form.sort }}
+            </div>
+        </div>
+        <div class="d-flex flex-wrap align-items-center">
+            <button type="submit" class="btn btn-impel mr-2 mb-2">Применить</button>
+            <a href="?" class="btn btn-impel-outline mb-2">Сбросить</a>
+            {% if paginator %}
+            <span class="text-muted small ml-auto mb-2">Найдено: <strong>{{ paginator.count }}</strong></span>
+            {% elif total_count is not None %}
+            <span class="text-muted small ml-auto mb-2">Найдено: <strong>{{ total_count }}</strong></span>
+            {% endif %}
+        </div>
+    </form>
+</div>

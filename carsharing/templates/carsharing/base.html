@@ -1,0 +1,100 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Impel CarShare{% endblock %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'carsharing/css/impel.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark impel-navbar sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">Impel <span>Car</span></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navMain">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navMain">
+                <ul class="navbar-nav ml-auto align-items-lg-center">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">Автопарк</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'profile' %}active{% endif %}" href="{% url 'profile' %}">Кабинет</a>
+                    </li>
+                    {% if is_fleet_manager %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if 'fleet' in request.path %}active{% endif %}" href="{% url 'fleet_car_list' %}">Управление авто</a>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item ml-lg-3">
+                        <span class="text-white-50 small">{{ user.username }}</span>
+                    </li>
+                    <li class="nav-item ml-2">
+                        <form action="{% url 'logout' %}" method="post" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-impel-outline btn-sm">Выйти</button>
+                        </form>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'register' %}">Регистрация</a>
+                    </li>
+                    <li class="nav-item ml-lg-2">
+                        <a href="{% url 'login' %}" class="btn btn-impel btn-sm">Войти</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    {% if messages %}
+    <div class="container mt-3">
+        {% for message in messages %}
+        <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-impel alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% block content %}{% endblock %}
+
+    <footer class="impel-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <h5>Impel CarShare</h5>
+                    <p class="small">Премиум каршеринг — аренда автомобилей поминутно в Москве.</p>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h5>Навигация</h5>
+                    <ul class="list-unstyled small">
+                        <li><a href="{% url 'home' %}">Каталог</a></li>
+                        {% if user.is_authenticated %}
+                        <li><a href="{% url 'profile' %}">Личный кабинет</a></li>
+                        {% endif %}
+                        <li><a href="/api/docs">API</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h5>Контакты</h5>
+                    <p class="small mb-0">+7 (495) 000-00-00</p>
+                    <p class="small">info@impelcarshare.ru</p>
+                </div>
+            </div>
+            <hr class="border-secondary">
+            <p class="text-center small mb-0">&copy; 2026 Impel CarShare</p>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

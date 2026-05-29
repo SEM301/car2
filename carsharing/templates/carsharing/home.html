@@ -1,0 +1,65 @@
+{% extends "carsharing/base.html" %}
+{% load carsharing_extras %}
+
+{% block title %}Автопарк — Impel CarShare{% endblock %}
+
+{% block content %}
+<section class="impel-hero">
+    <div class="container">
+        <div class="gold-line"></div>
+        <h1>Премиум каршеринг</h1>
+        <p class="lead">Арендуйте автомобиль класса люкс поминутно. Выберите авто из каталога и начните поездку за пару кликов.</p>
+        {% if not user.is_authenticated %}
+        <a href="{% url 'login' %}" class="btn btn-impel mt-3">Войти и арендовать</a>
+        {% endif %}
+    </div>
+</section>
+
+{% if active_rental %}
+<section class="py-4 bg-warning">
+    <div class="container d-flex justify-content-between align-items-center flex-wrap">
+        <div>
+            <strong>Активная аренда:</strong> {{ active_rental.car.display_name }}
+        </div>
+        <a href="{% url 'rental_stop' active_rental.pk %}" class="btn btn-impel-danger btn-sm mt-2 mt-md-0">Завершить поездку</a>
+    </div>
+</section>
+{% endif %}
+
+<section class="impel-section">
+    <div class="container">
+        <div class="impel-section-title">
+            <p class="subtitle">Наш автопарк</p>
+            <h2>Доступные автомобили</h2>
+        </div>
+
+        {% include "carsharing/includes/car_filters.html" %}
+
+        {% if cars %}
+        <div class="row">
+            {% for car in cars %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="car-card">
+                    <a href="{% url 'car_detail' car.pk %}">
+                        <img src="{% car_image car %}" alt="{{ car.display_name }}" class="car-card-img" loading="lazy">
+                    </a>
+                    <div class="car-card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h3 class="car-card-title mb-0">{{ car.display_name }}</h3>
+                            <span class="badge-available">Свободен</span>
+                        </div>
+                        <p class="car-card-meta">{{ car.year }} · {{ car.license_plate }}</p>
+                        <p class="car-card-price mb-3">{{ car.price_per_minute }} руб./мин</p>
+                        <a href="{% url 'car_detail' car.pk %}" class="btn btn-impel btn-block">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% include "carsharing/includes/pagination.html" %}
+        {% else %}
+        <p class="text-center text-muted py-4">По вашим фильтрам ничего не найдено. <a href="?">Сбросить фильтры</a></p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends "carsharing/base.html" %}
+{% load carsharing_extras %}
+
+{% block title %}{% if object %}Редактирование{% else %}Новый автомобиль{% endif %} — Impel CarShare{% endblock %}
+
+{% block content %}
+<section class="impel-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="impel-section-title text-left">
+                    <p class="subtitle">Менеджер автопарка</p>
+                    <h2>{% if object %}Редактировать: {{ object.display_name }}{% else %}Добавить автомобиль{% endif %}</h2>
+                </div>
+
+                {% if object and object.image %}
+                <div class="mb-4 text-center">
+                    <img src="{% car_image object %}" alt="" class="car-detail-img" style="max-height:240px;">
+                    <p class="small text-muted mt-2">Текущее фото (загрузите новое, чтобы заменить)</p>
+                </div>
+                {% endif %}
+
+                <div class="impel-form-card">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% for field in form %}
+                        <div class="form-group">
+                            {% if field.field.widget.input_type == 'checkbox' %}
+                            <div class="form-check">
+                                {{ field }}
+                                <label class="form-check-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            </div>
+                            {% else %}
+                            {{ field.label_tag }}
+                            {{ field }}
+                            {% endif %}
+                            {% if field.help_text %}<small class="form-text text-muted">{{ field.help_text }}</small>{% endif %}
+                            {% for error in field.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+                        </div>
+                        {% endfor %}
+                        <div class="d-flex flex-wrap">
+                            <button type="submit" class="btn btn-impel mr-2">Сохранить</button>
+                            <a href="{% url 'fleet_car_list' %}" class="btn btn-impel-outline">Отмена</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
